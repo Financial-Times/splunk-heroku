@@ -1,0 +1,25 @@
+facility,facility_description
+0,kernel
+1,user-level
+2,mail system
+3,system daemons
+4,security/authorization
+5,syslogd
+6,line printer
+7,network news
+8,UUCP
+9,clock daemon
+10,security/authorization
+11,FTP daemon
+12,NTP
+13,log audit
+14,log alert
+15,clock daemon
+16,local0
+17,local1
+18,local2
+19,local3
+20,local4
+21,local5
+22,local6
+23,local7
