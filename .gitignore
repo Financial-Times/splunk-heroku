@@ -1,0 +1,5 @@
+# Ignore the app.manifest file that the slim CLI creates, only used for publishing to Splunkbase.
+app.manifest
+
+# Ignore the generated package artifacts made by the slim CLI.
+target/

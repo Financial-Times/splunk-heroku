@@ -1,0 +1,46 @@
+name: Release
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  github:
+    name: GitHub Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+
+      - name: Configure git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+      - name: Get the git tag
+        id: tag
+        run: echo ::set-output name=tag::${GITHUB_REF/refs\/tags\//}
+
+      - name: Install Splunk Packaging Toolkit
+        run: pip install https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.1.tar.gz
+
+      - name: Update the version in app.conf
+        run: perl -i -pe "s/version = (\S+)/version = ${{ steps.tag.outputs.tag }}/" default/app.conf
+
+      - name: Commit the app.conf changes
+        run: |
+          git commit -am "chore: update app.conf version to ${{ steps.tag.outputs.tag }}"
+
+      - run: slim package -o target/ .
+
+      - run: cp target/splunk_heroku_log_drain-${{ steps.tag.outputs.tag }}.tar.gz splunk_heroku_log_drain-latest.tar.gz
+
+      - name: Commit the splunk_heroku_log_drain-latest.tar.gz changes
+        run: |
+          git commit -am "chore: update splunk_heroku_log_drain-latest.tar.gz to version ${{ steps.tag.outputs.tag }}"
+
+      - run: git push
