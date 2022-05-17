@@ -38,6 +38,7 @@ jobs:
           git add default/app.conf
           git commit -m "chore: update app.conf version to ${{ steps.tag.outputs.tag }}"
 
+      # Splunk Cloud expects specific file and folder permissions that are lost when using `git archive`, so use `tar czf` to preserve permissions
       - name: Generate splunk_heroku_log_drain-latest.tar.gz
         run: |
           cd ../
