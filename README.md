@@ -4,7 +4,7 @@ A Heroku log drain source type packaged as a Splunk Add-on, based on RFC5424.
 
 ## Packaging the Splunk App
 
-Use the [Splunk Packaging Toolkit](https://dev.splunk.com/enterprise/docs/releaseapps/packageapps/packagingtoolkit/) to create a package that can be installed on Splunk.
+Use `git archive -o splunk_heroku_log_drain.tar.gz HEAD` to create a package that can be installed on Splunk.
 
 ## Releasing
 
@@ -18,3 +18,4 @@ The version number in `default/app.conf` will automatically be updated in the de
 * https://datatracker.ietf.org/doc/html/rfc5424
 * https://datatracker.ietf.org/doc/html/rfc6587#section-3.4.1
 * https://docs.splunk.com/Documentation/SplunkCloud/8.2.2202/Admin/SelfServiceAppInstall
+* https://dev.splunk.com/enterprise/docs/releaseapps/packageapps/packagingtoolkit/

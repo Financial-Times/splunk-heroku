@@ -18,10 +18,3 @@ jobs:
         run: pip install https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.1.tar.gz
 
       - run: slim validate .
-
-      - run: slim package -o target/ .
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: splunk_heroku_log_drain
-          path: target/

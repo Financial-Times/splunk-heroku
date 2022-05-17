@@ -38,9 +38,7 @@ jobs:
           git add default/app.conf
           git commit -m "chore: update app.conf version to ${{ steps.tag.outputs.tag }}"
 
-      - run: slim package -o target/ .
-
-      - run: cp target/splunk_heroku_log_drain-${{ steps.tag.outputs.tag }}.tar.gz splunk_heroku_log_drain-latest.tar.gz
+      - run: git archive -o splunk_heroku_log_drain-latest.tar.gz HEAD
 
       - name: Commit the splunk_heroku_log_drain-latest.tar.gz changes
         run: |
