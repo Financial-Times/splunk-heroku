@@ -33,7 +33,7 @@ jobs:
 
       - name: Commit the app.conf changes
         run: |
-          git add defaults/app.conf
+          git add default/app.conf
           git commit -m "chore: update app.conf version to ${{ steps.tag.outputs.tag }}"
 
       - run: slim package -o target/ .
