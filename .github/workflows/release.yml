@@ -33,7 +33,8 @@ jobs:
 
       - name: Commit the app.conf changes
         run: |
-          git commit -am "chore: update app.conf version to ${{ steps.tag.outputs.tag }}"
+          git add defaults/app.conf
+          git commit -m "chore: update app.conf version to ${{ steps.tag.outputs.tag }}"
 
       - run: slim package -o target/ .
 
@@ -41,6 +42,7 @@ jobs:
 
       - name: Commit the splunk_heroku_log_drain-latest.tar.gz changes
         run: |
-          git commit -am "chore: update splunk_heroku_log_drain-latest.tar.gz to version ${{ steps.tag.outputs.tag }}"
+          git add splunk_heroku_log_drain-latest.tar.gz
+          git commit -m "chore: update splunk_heroku_log_drain-latest.tar.gz to version ${{ steps.tag.outputs.tag }}"
 
       - run: git push
