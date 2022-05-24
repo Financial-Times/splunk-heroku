@@ -6,15 +6,19 @@ on:
 
 jobs:
   build:
+    name: Splunk AppInspect
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
       - uses: actions/setup-python@v3
         with:
-          python-version: '3.9'
+          python-version: '3.10'
 
-      - name: Install Splunk Packaging Toolkit
-        run: pip install https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.1.tar.gz
+      - name: Install Splunk AppInspect CLI
+        run: pip install splunk-appinspect
 
-      - run: slim validate .
+      - run: make splunk_heroku_log_drain-latest.tar.gz
+
+      - name: Run splunk-appinspect inspect
+        run: splunk-appinspect inspect --included-tags cloud --max-messages all splunk_heroku_log_drain-latest.tar.gz
