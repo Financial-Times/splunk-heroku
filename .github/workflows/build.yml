@@ -6,15 +6,24 @@ on:
 
 jobs:
   build:
+    name: Splunk AppInspect
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
       - uses: actions/setup-python@v3
         with:
-          python-version: '3.9'
+          python-version: '3.10'
 
-      - name: Install Splunk Packaging Toolkit
-        run: pip install https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.1.tar.gz
+      - name: Install Splunk AppInspect CLI
+        run: pip install splunk-appinspect
 
-      - run: slim validate .
+      # Splunk Cloud expects specific file and folder permissions that are lost when using `git archive`, so use `tar czf` to preserve permissions
+      - name: Generate splunk_heroku_log_drain-latest.tar.gz
+        run: |
+          cd ../
+          tar czf splunk_heroku_log_drain-latest.tar.gz splunk_heroku_log_drain/default/ splunk_heroku_log_drain/metadata/
+          mv splunk_heroku_log_drain-latest.tar.gz splunk_heroku_log_drain/
+          cd splunk_heroku_log_drain/
+
+      - run: splunk-appinspect inspect --included-tags cloud splunk_heroku_log_drain-latest.tar.gz

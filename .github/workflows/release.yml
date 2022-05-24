@@ -7,7 +7,7 @@ on:
 
 jobs:
   github:
-    name: GitHub Release
+    name: GitHub
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,7 +16,7 @@ jobs:
 
       - uses: actions/setup-python@v3
         with:
-          python-version: '3.9'
+          python-version: '3.10'
 
       - name: Configure git
         run: |
@@ -26,9 +26,6 @@ jobs:
       - name: Get the git tag
         id: tag
         run: echo ::set-output name=tag::${GITHUB_REF/refs\/tags\//}
-
-      - name: Install Splunk Packaging Toolkit
-        run: pip install https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-1.0.1.tar.gz
 
       - name: Update the version in app.conf
         run: perl -i -pe "s/version = (\S+)/version = ${{ steps.tag.outputs.tag }}/" default/app.conf
