@@ -5,7 +5,7 @@ on:
   - pull_request
 
 jobs:
-  build:
+  splunk_appinspect:
     name: Splunk AppInspect
     runs-on: ubuntu-latest
     steps:
@@ -15,10 +15,29 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install Splunk AppInspect CLI
+      - name: Install Splunk AppInspect
         run: pip install splunk-appinspect
 
-      - run: make splunk_heroku_log_drain-latest.tar.gz
+      - run: make splunk_heroku-latest.tar.gz
 
       - name: Run splunk-appinspect inspect
-        run: splunk-appinspect inspect --included-tags cloud --max-messages all splunk_heroku_log_drain-latest.tar.gz
+        run: splunk-appinspect inspect --included-tags cloud --max-messages all splunk_heroku-latest.tar.gz
+
+  slim:
+    name: Splunk Packaging Toolkit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # Splunk Packaging Toolkit version 1.0.1 doesn't work with Python 3.10
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+
+      - name: Install Splunk Packaging Toolkit
+        run: pip install splunk-packaging-toolkit
+
+      - run: make splunk_heroku-latest.tar.gz
+
+      - name: Run slim validate
+        run: slim validate splunk_heroku-latest.tar.gz

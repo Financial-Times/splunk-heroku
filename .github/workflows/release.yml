@@ -11,8 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          ref: main
 
       - uses: actions/setup-python@v3
         with:
@@ -30,16 +28,32 @@ jobs:
       - name: Update the version in app.conf
         run: perl -i -pe "s/version = (\S+)/version = ${{ steps.tag.outputs.tag }}/" default/app.conf
 
-      - name: Commit the app.conf changes
+      - name: Create the app.conf changes
         run: |
+          git checkout -b release-${{ steps.tag.outputs.tag }}
           git add default/app.conf
           git commit -m "chore: update app.conf version to ${{ steps.tag.outputs.tag }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: make splunk_heroku_log_drain-latest.tar.gz
-
-      - name: Commit the splunk_heroku_log_drain-latest.tar.gz changes
+      - name: Open the pull request
         run: |
-          git add splunk_heroku_log_drain-latest.tar.gz
-          git commit -m "chore: update splunk_heroku_log_drain-latest.tar.gz to version ${{ steps.tag.outputs.tag }}"
+          gh pr create --title "Release ${{ steps.tag.outputs.tag }}" --fill | gh pr merge --auto
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: git push
+      - run: make splunk_heroku-${{ steps.tag.outputs.tag }}.tar.gz
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: splunk_heroku-${{ steps.tag.outputs.tag }}.tar.gz
+          path: splunk_heroku-${{ steps.tag.outputs.tag }}.tar.gz
+
+      - uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: splunk_heroku-${{ steps.tag.outputs.tag }}.tar.gz
+          asset_name: splunk_heroku-${{ steps.tag.outputs.tag }}.tar.gz
+          asset_content_type: application/gzip
