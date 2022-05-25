@@ -38,6 +38,7 @@ jobs:
       - name: Open the pull request
         run: |
           gh pr create --title "Release ${{ steps.tag.outputs.tag }}" --fill
+          sleep 5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
