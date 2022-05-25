@@ -1,1 +1,7 @@
 _extends: edo-github-config
+
+# Disable required review requests so we can auto-merge release pull requests.
+branches:
+  - name: main
+    protection:
+      required_pull_request_reviews: null
