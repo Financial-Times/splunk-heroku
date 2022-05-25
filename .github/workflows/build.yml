@@ -5,26 +5,11 @@ on:
   - pull_request
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: make splunk_heroku-latest.tar.gz
-      - uses: actions/upload-artifact@v3
-        with:
-          name: splunk_heroku-latest.tar.gz
-          path: splunk_heroku-latest.tar.gz
-
   splunk_appinspect:
     name: Splunk AppInspect
     runs-on: ubuntu-latest
-    needs:
-      - build
     steps:
-      - uses: actions/download-artifact@v3
-        with:
-          name: splunk_heroku-latest.tar.gz
+      - uses: actions/checkout@v3
 
       - uses: actions/setup-python@v3
         with:
@@ -33,18 +18,16 @@ jobs:
       - name: Install Splunk AppInspect
         run: pip install splunk-appinspect
 
+      - run: make splunk_heroku-latest.tar.gz
+
       - name: Run splunk-appinspect inspect
         run: splunk-appinspect inspect --included-tags cloud --max-messages all splunk_heroku-latest.tar.gz
 
   slim:
     name: Splunk Packaging Toolkit
     runs-on: ubuntu-latest
-    needs:
-      - build
     steps:
-      - uses: actions/download-artifact@v3
-        with:
-          name: splunk_heroku-latest.tar.gz
+      - uses: actions/checkout@v3
 
       # Splunk Packaging Toolkit version 1.0.1 doesn't work with Python 3.10
       - uses: actions/setup-python@v3
@@ -53,6 +36,8 @@ jobs:
 
       - name: Install Splunk Packaging Toolkit
         run: pip install splunk-packaging-toolkit
+
+      - run: make splunk_heroku-latest.tar.gz
 
       - name: Run slim validate
         run: slim validate splunk_heroku-latest.tar.gz
