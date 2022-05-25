@@ -1,5 +1,11 @@
 _extends: edo-github-config
 
+repository:
+  name: splunk-heroku
+  description: Support for Heroku log drains packaged as a Splunk App, based on RFC5424.
+  topics: heroku, splunk, logging
+  private: false
+
 branches:
   - name: main
     protection:
