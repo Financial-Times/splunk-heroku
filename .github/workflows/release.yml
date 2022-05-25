@@ -33,12 +33,13 @@ jobs:
           git checkout -b release-${{ steps.tag.outputs.tag }}
           git add default/app.conf
           git commit -m "chore: update app.conf version to ${{ steps.tag.outputs.tag }}"
+          git push origin release-${{ steps.tag.outputs.tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Open the pull request
         run: |
-          gh pr create --title "Release ${{ steps.tag.outputs.tag }}" --fill ---head | gh pr merge --auto --merge
+          gh pr create --title "Release ${{ steps.tag.outputs.tag }}" --fill | gh pr merge --auto --merge
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
