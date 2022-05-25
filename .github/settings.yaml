@@ -1,10 +1,16 @@
 _extends: edo-github-config
 
+repository:
+  name: splunk-heroku
+  description: Support for Heroku log drains packaged as a Splunk App, based on RFC5424.
+  topics: heroku, splunk, logging
+  private: false
+
 branches:
   - name: main
     protection:
       # Disable required review requests so we can auto-merge release pull requests.
       required_pull_request_reviews: null
       required_status_checks:
-        - Splunk AppInspect
-        - Splunk Packaging Toolkit
+        - Build / Splunk AppInspect
+        - Build / Splunk Packaging Toolkit
