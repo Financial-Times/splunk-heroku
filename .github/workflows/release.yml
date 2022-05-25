@@ -24,12 +24,12 @@ jobs:
         run: echo ::set-output name=tag::${GITHUB_REF/refs\/tags\//}
 
       - name: Update the version in app.conf
-        run: perl -i -pe "s/version = (\S+)/version = ${{ steps.tag.outputs.tag }}/" default/app.conf
+        run: perl -i -pe "s/version = (\S+)/version = ${{ steps.tag.outputs.tag }}/" app/default/app.conf
 
       - name: Create the app.conf changes
         run: |
           git checkout -b release-${{ steps.tag.outputs.tag }}
-          git add default/app.conf
+          git add app/default/app.conf
           git commit -m "chore: update app.conf version to ${{ steps.tag.outputs.tag }}"
           git push origin release-${{ steps.tag.outputs.tag }}
         env:
