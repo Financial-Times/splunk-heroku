@@ -14,10 +14,6 @@ jobs:
         with:
           ref: main
 
-      - uses: actions/setup-python@v3
-        with:
-          python-version: '3.10'
-
       - name: Configure git
         run: |
           git config user.name github-actions
@@ -41,7 +37,13 @@ jobs:
 
       - name: Open the pull request
         run: |
-          gh pr create --title "Release ${{ steps.tag.outputs.tag }}" --fill | gh pr merge --auto --merge
+          gh pr create --title "Release ${{ steps.tag.outputs.tag }}" --fill
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Merge the pull request
+        run: |
+          gh pr merge --merge --auto
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
