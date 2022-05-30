@@ -37,14 +37,7 @@ jobs:
 
       - name: Open the pull request
         run: |
-          gh pr create --title "Release ${{ steps.tag.outputs.tag }}" --fill
-          sleep 5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Merge the pull request
-        run: |
-          gh pr merge --merge --auto
+          gh pr create --title "Release ${{ steps.tag.outputs.tag }}" --fill --reviewer "${{ github.actor }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
