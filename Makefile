@@ -9,7 +9,7 @@ latest: splunk_heroku-latest.tar.gz
 #
 # The tar directory structure must include a base directory named
 # after the app ID in app.conf.
-splunk_heroku-%.tar.gz: $(wildcard app/*.conf)
+splunk_heroku-%.tar.gz: $(wildcard app/default/*.conf) $(wildcard app/lookups/*.csv) $(wildcard app/metadata/*.meta)
 	mkdir -p $(TMPDIR)/splunk_heroku/
 	cp -r app/* $(TMPDIR)/splunk_heroku/
 	tar -C $(TMPDIR) -czf $(TMPDIR)/$@ splunk_heroku/
