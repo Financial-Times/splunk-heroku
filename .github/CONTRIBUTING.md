@@ -6,7 +6,7 @@ Working on a Splunk app might be a bit different to what you'd usually expect, w
 
 To verify your changes, we suggest using one of the following methods to support a pull request:
 
-1. Use regex101
+1. Use [regex101](https://regex101.com/)
 2. Configure a local Splunk environment
 
 Screenshots and regex101 links will be appreciated in any pull request description.
@@ -37,9 +37,17 @@ Download and install Splunk locally.
 1. Build the Splunk app using `make splunk_heroku-latest.tar.gz`
 2. Install or upgrade the Splunk app locally by visiting http://localhost:8000/en-GB/manager/appinstall/_upload
 
+You can also use the Splunk CLI to install or update the app:
+
+```
+/Applications/Splunk/bin/splunk install app splunk_heroku-latest.tar.gz -update 1
+```
+
 ### Sending logs to the HEC
 
 You can recreate Heroku logplex sending logs to the Splunk HEC using the following curl command.
+
+Ensure your Splunk HEC token has the default source type set to `heroku_requests`.
 
 ```shell
 curl --user "x:$SPLUNK_HEC_TOKEN" --header 'Content-Type: application/logplex-1' 'http://localhost:8088/services/collector/raw?channel=123e4567-e89b-12d3-a456-426614174000' < logs.txt
