@@ -2,7 +2,7 @@
 
 Thanks for looking to make a contribution!
 
-Working on a Splunk app might be a bit diffrent to what you'd usually expect, we don't have a unit test suite for example.
+Working on a Splunk app might be a bit different to what you'd usually expect, we don't have a unit test suite for example.
 
 To verify your changes, we suggest using one of the following methods to support a pull request:
 
@@ -42,7 +42,7 @@ Download and install Splunk locally.
 You can recreate Heroku logplex sending logs to the Splunk HEC using the following curl command.
 
 ```shell
-curl --user "x:$SPLUNK_HEC_TOKEN" --header 'Content-Type: application/logplex-1' 'http://localhost:8088/services/collector/raw?sourcetype=heroku&channel=123e4567-e89b-12d3-a456-426614174000' < logs.txt
+curl --user "x:$SPLUNK_HEC_TOKEN" --header 'Content-Type: application/logplex-1' 'http://localhost:8088/services/collector/raw?channel=123e4567-e89b-12d3-a456-426614174000' < logs.txt
 ```
 
 Create a file called `logs.txt` containing your example logs. This should match the raw [syslog message structure used by Heroku log drains](https://devcenter.heroku.com/articles/log-drains#https-drains). For example, here are some Heroku system logs:
