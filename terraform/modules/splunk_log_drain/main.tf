@@ -12,9 +12,6 @@ terraform {
   }
 }
 
-provider "heroku" {}
-provider "random" {}
-
 # Get the Heroku app ID and hostname from it's unique name.
 data "heroku_app" "app" {
   name = var.heroku_app_name
