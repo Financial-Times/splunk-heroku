@@ -27,6 +27,6 @@ resource "random_uuid" "splunk_hec_channel" {}
 #
 # See https://docs.splunk.com/Documentation/Splunk/9.0.0/Data/HECExamples#Example_4:_Send_multiple_raw_text_events_to_HEC for more information on the supported URL parameters.
 resource "heroku_drain" "splunk_log_drain" {
-  app_id        = heroku_app.app.id
-  sensitive_url = "https://x:${var.splunk_hec_token}@${var.splunk_host}/services/collector/raw/1.0?%{ if var.source }source=${urlencode(var.source)}&%{ endif }host=${urlencode(heroku_app.app.heroku_hostname)}&channel=${random_uuid.splunk_hec_channel.id}"
+  app_id        = data.heroku_app.app
+  sensitive_url = "https://x:${var.splunk_hec_token}@${var.splunk_host}/services/collector/raw/1.0?%{ if var.splunk_event_source }source=${urlencode(var.splunk_event_source)}&%{ endif }host=${urlencode(data.heroku_app.app.heroku_hostname)}&channel=${random_uuid.splunk_hec_channel.id}"
 }
