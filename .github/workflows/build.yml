@@ -55,3 +55,18 @@ jobs:
 
       - name: Run slim validate
         run: slim validate splunk_heroku-latest.tar.gz
+
+  terraform:
+    name: Terraform Validate
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform/examples/splunk_log_drain/
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: hashicorp/setup-terraform@v2
+
+      - run: terraform init
+
+      - run: terraform validate
