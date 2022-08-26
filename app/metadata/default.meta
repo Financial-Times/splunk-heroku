@@ -1,9 +1,9 @@
 # Application-level permissions
 
 []
-access = read : [ * ], write : [ sc_admin, admin, power ]
+access = read : [ * ], write : [ sc_admin, admin ]
 
-[eventypes]
+[eventtypes]
 export = system
 
 [fields]
