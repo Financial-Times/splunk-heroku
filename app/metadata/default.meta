@@ -3,6 +3,9 @@
 []
 access = read : [ * ], write : [ sc_admin, admin, power ]
 
+[eventypes]
+export = system
+
 [fields]
 export = system
 
